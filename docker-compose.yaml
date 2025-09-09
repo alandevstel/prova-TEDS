@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  tarefas_web:
+    container_name: tarefas_web_container
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    restart: always
+    ports:
+      - "8081:80"
+    volumes:
+      - ./src:/var/www/html
+    # A dependência 'depends_on' foi removida, pois o DB é externo.
+    networks:
+      # Conecta este serviço à rede padrão deste compose E à rede externa.
+      - default
+      - rede_externa
+
+networks:
+  default:
+    driver: bridge
+
+  # Define a rede 'rede_externa' como uma rede que já existe.
+  rede_externa:
+    external: true
+    #
+    # --- CORREÇÃO IMPORTANTE AQUI ---
+    # Substitua 'componses_default' pelo nome real da sua rede
+    #
+    name: componses_default
+
