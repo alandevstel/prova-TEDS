@@ -1,17 +1,20 @@
 <?php
-// 1. Inclui o cabeçalho, que já carrega a configuração base.
 require_once __DIR__ . '/cabecalho.php';
-
-// 2. AGORA, inclui as funções necessárias para esta página.
 require_once dirname(__DIR__, 2) . '/config/functions.php';
 
-// 3. Executa a lógica da página
 $pdo = pdo_connect_pgsql();
 $tarefas = listarTarefas($pdo);
 ?>
-<div class="dashboard">
-    <h2>Painel de Tarefas</h2>
-    <div class="tarefas-grid">
+
+<div class="content-header">
+    <h2>Lista de Tarefas</h2>
+</div>
+
+<div class="tarefas-list">
+    <?php if (!empty($tarefas)): ?>
+        <table>
+           
+            <div class="tarefas-grid">
         <?php if (!empty($tarefas)): foreach ($tarefas as $tarefa): ?>
             <a href="tarefa_visualizar.php?id=<?= $tarefa['id'] ?>" class="tarefa-card" style="background-image: url('<?= UPLOADS_URL . '/' . htmlspecialchars($tarefa['imagem'] ?: 'placeholder.png') ?>');">
                 <div class="tarefa-titulo">
@@ -22,8 +25,10 @@ $tarefas = listarTarefas($pdo);
             <p>Nenhuma tarefa encontrada. <a href="tarefa_form.php">Crie a primeira!</a></p>
         <?php endif; ?>
     </div>
+        </table>
+    <?php else: ?>
+        <p>Nenhuma tarefa encontrada. <a href="tarefa_form.php">Crie a primeira!</a></p>
+    <?php endif; ?>
 </div>
-<?php
-// 4. Inclui o rodapé para fechar a página.
-require_once __DIR__ . '/rodape.php';
-?>
+
+<?php require_once __DIR__ . '/rodape.php'; ?>

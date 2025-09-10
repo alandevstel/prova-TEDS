@@ -1,6 +1,7 @@
+        </main>
         <footer class="footer">
-            <p>&copy; 2025 - Avaliação Prática 1 - Programação para Web</p>
+            <p>&copy; <?= date('Y') ?> - Avaliação Prática 1 - Programação para Web</p>
         </footer>
-    </div>
+    </div> <!-- Fim do .grid-container -->
 </body>
 </html>

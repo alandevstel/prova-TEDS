@@ -1,12 +1,27 @@
 <?php
-// Arquivo de configuração para o ambiente Docker existente
+// src/config/config.php
 
-// Constantes para a conexão com o banco de dados PostgreSQL
-define('DB_HOST', 'db');          // Nome do serviço do PostgreSQL no docker-compose.yml
-define('DB_PORT', '5432');        // Porta padrão do PostgreSQL
-define('DB_USER', 'postgres');    // Usuário do seu container 'db'
-define('DB_PASS', 'admin');       // Senha do seu container 'db'
-define('DB_NAME', 'db_testin');   // Nome do banco de dados do seu container 'db'
+// Garante que os erros sejam exibidos durante o desenvolvimento
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// URL base do site (acessado pela nova porta 8081)
+// Inicia a sessão aqui para garantir que seja chamada apenas uma vez
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Constantes de conexão com o banco
+define('DB_HOST', getenv('DB_HOST') ?: 'db');
+define('DB_PORT', '5432');
+define('DB_NAME', 'db_testin');
+define('DB_USER', 'postgres');
+define('DB_PASS', 'admin');
+define('DB_DRIVER', 'pgsql');
+
+// Constantes de caminhos
+define('APP_ROOT', dirname(__DIR__, 2));
 define('BASE_URL', 'http://localhost:8081/');
+define('UPLOADS_DIR', $_SERVER['DOCUMENT_ROOT'] . '/uploads');
+define('UPLOADS_URL', BASE_URL . 'uploads');
+
